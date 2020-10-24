@@ -83,10 +83,8 @@ export default {
           this.roles = response.data;
           this.roles.forEach((object) => {
             if (object.roleName === "Profesor") {
-              console.log("Listo");
               document.getElementById("form").style.display = "block";
             } else {
-              console.log("Usted no es profesor");
               document.getElementById("form").style.display = "none";
             }
           });
