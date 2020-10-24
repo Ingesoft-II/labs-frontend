@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" id="form" style="display: none">
     <div class="row">
       <div class="col-12 col-sm-10 col-md-8 offset-sm-1 offset-md-2">
         <div id="signUp" class="mt-5">
@@ -55,6 +55,7 @@
 
 <script>
 import axios from "axios";
+const tokenKey = "token";
 
 const path = "/profesor/crear-curso";
 export default {
@@ -68,29 +69,33 @@ export default {
     };
   },
   beforeCreate() {
-    const requestPATH = "/mis-roles";
+  },
+  beforeMount() {
+    const requestPATH = "/user/roles";
     axios
-      .get(
-        this.$store.state.backURL + requestPATH
-          ? access_token
-          : getAuthenticationToken()
-      )
+      .get(this.$store.state.backURL + requestPATH, {
+        params: { access_token: localStorage.getItem(tokenKey) },
+      })
       .then((response) => {
         if (response.status !== 200) {
           alert("Error obteniendo sus roles.");
         } else {
-          this.roles = this.response.data;
+          this.roles = response.data;
+          this.roles.forEach((object) => {
+            if (object.roleName === "Profesor") {
+              console.log("Listo");
+              document.getElementById("form").style.display = "block";
+            } else {
+              console.log("Usted no es profesor");
+              document.getElementById("form").style.display = "none";
+            }
+          });
         }
       })
       .catch((error) => {
         alert("Error en la petición");
         console.log(error);
       });
-      if(this.roles.roleName==="Profesor"){
-          console.log("Listo");
-      }else{
-          console.log("No Listo");
-      }
   },
   methods: {
     createCourse(event) {
