@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import SignUp from "./views/SignUp";
 import Login from "./views/Login";
 import Home from "./views/Home";
+import CoursesList from "./views/CoursesList";
 import AddRole from "./components/AddRole";
 import ListRole from "./components/ListRole";
 import FormNewCourse from "./components/FormNewCourse";
@@ -23,6 +24,11 @@ export default new Router({
       alias: "/iniciar-sesion",
       name: "login",
       component: Login
+    },
+    {
+      path: "/listas-cursos",
+      name: "course-list",
+      component: CoursesList
     },
     {
       path: "/principal",
